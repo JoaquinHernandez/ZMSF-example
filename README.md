@@ -50,3 +50,24 @@ OBSIDIAN-ZMSF/
 ├── docs/
 │   └── THREAT_MODEL.md                # Attack vectors and mitigation strategies
 └── README.md
+
+🚀 Quickstart
+Clone the repository to your target Ubuntu VPS.
+
+Initialize the LUKS encrypted volume for your database:
+
+Bash
+sudo ./scripts/setup_luks_encryption.sh
+Review and modify the environment variables in scripts/deploy_obsidian.sh.
+
+Execute the deployment script as root to apply the baseline hardening:
+
+Bash
+sudo chmod +x scripts/deploy_obsidian.sh
+sudo ./scripts/deploy_obsidian.sh
+Tail your syslog and Fail2Ban logs to monitor active threat mitigation:
+
+Bash
+sudo tail -f /var/log/fail2ban.log
+🛡️ License & Contributing
+Project Obsidian is released under the MIT License. Pull requests focusing on enhanced failregex patterns, advanced kernel routing, EDR integration optimizations, or cryptographic enhancements are welcome. Do not submit public issues for security vulnerabilities; please use GitHub's private vulnerability reporting feature.
