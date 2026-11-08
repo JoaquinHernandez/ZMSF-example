@@ -1,0 +1,15 @@
+# Set default policies to DROP
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT DROP
+
+# Allow established/related connections
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# Allow outbound DNS, HTTP, HTTPS, and Wazuh Manager traffic (Egress Trap)
+iptables -A OUTPUT -p tcp -m multiport --dports 53,80,443,1514,1515 -m conntrack --ctstate NEW -j ACCEPT
+iptables -A OUTPUT -p udp --dport 53 -m conntrack --ctstate NEW -j ACCEPT
+
+# Log dropped outbound traffic for threat hunting
+iptables -A OUTPUT -m limit --limit 5/min -j LOG --log-prefix "OBSIDIAN_EGRESS_DROP: "
