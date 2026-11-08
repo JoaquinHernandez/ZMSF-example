@@ -1,0 +1,21 @@
+# /etc/fail2ban/jail.local
+[DEFAULT]
+bantime  = 24h
+findtime = 10m
+maxretry = 3
+backend  = systemd
+persistent = true 
+banaction = iptables-multiport
+
+[sshd]
+enabled = true
+port    = ssh
+maxretry = 2
+
+[nginx-botsearch]
+enabled  = true
+port     = http,https
+filter   = nginx-botsearch
+logpath  = /var/log/nginx/error.log
+maxretry = 2
+bantime  = 48h
